@@ -1,5 +1,0 @@
-{
-  "framework": "nextjs",
-  "buildCommand": "npm --prefix garagenatal install && npm --prefix garagenatal run build",
-  "outputDirectory": "garagenatal/.next"
-}
