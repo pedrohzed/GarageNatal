@@ -15,18 +15,24 @@ export default async function LojaPage({ searchParams }: { searchParams: Promise
   const { q } = await searchParams;
   const searchQuery = q?.trim() || "";
 
-  let query = supabase
-    .from("produtos")
-    .select("*")
-    .eq("visivel", true)
-    .order("created_at", { ascending: false });
+  let produtos: any[] = [];
+  try {
+    let query = supabase
+      .from("produtos")
+      .select("*")
+      .eq("visivel", true)
+      .order("created_at", { ascending: false });
 
-  // Se tem busca, filtra por nome (case-insensitive)
-  if (searchQuery) {
-    query = query.ilike("nome", `%${searchQuery}%`);
+    // Se tem busca, filtra por nome (case-insensitive)
+    if (searchQuery) {
+      query = query.ilike("nome", `%${searchQuery}%`);
+    }
+
+    const { data } = await query;
+    if (data) produtos = data;
+  } catch (error) {
+    console.error("Erro ao buscar produtos na loja:", error);
   }
-
-  const { data: produtos } = await query;
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

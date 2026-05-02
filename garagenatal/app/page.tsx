@@ -10,12 +10,18 @@ export default async function Home() {
   const supabase = createClient(cookieStore);
 
   // Buscar apenas 4 produtos visíveis para destaque
-  const { data: produtos } = await supabase
-    .from("produtos")
-    .select("*")
-    .eq("visivel", true)
-    .order("created_at", { ascending: false })
-    .limit(4);
+  let produtos: any[] = [];
+  try {
+    const { data } = await supabase
+      .from("produtos")
+      .select("*")
+      .eq("visivel", true)
+      .order("created_at", { ascending: false })
+      .limit(4);
+    if (data) produtos = data;
+  } catch (error) {
+    console.error("Erro ao buscar produtos:", error);
+  }
 
   const stats = [
     { icon: CalendarDays, label: "No mercado desde", value: "2013" },
