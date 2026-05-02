@@ -5,6 +5,7 @@ import { Star, CalendarDays, ShieldCheck, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
+// Pagina inicial da loja GarageNatal
 export default async function Home() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
