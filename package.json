@@ -1,0 +1,10 @@
+{
+  "name": "garagenatal-root",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm --prefix garagenatal run dev",
+    "build": "npm --prefix garagenatal run build",
+    "start": "npm --prefix garagenatal run start",
+    "lint": "npm --prefix garagenatal run lint"
+  }
+}
