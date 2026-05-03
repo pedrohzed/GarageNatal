@@ -17,19 +17,28 @@ export default async function LojaPage({ searchParams }: { searchParams: Promise
 
   let produtos: any[] = [];
   try {
-    let query = supabase
+    const { data, error } = await supabase
       .from("produtos")
       .select("*")
       .eq("visivel", true)
       .order("created_at", { ascending: false });
 
-    // Se tem busca, filtra por tamanho no array JSONB
-    if (searchQuery) {
-      query = query.contains("tamanhos_estoque", [{ tamanho: searchQuery }]);
+    if (error) {
+      throw error;
     }
 
-    const { data } = await query;
-    if (data) produtos = data;
+    if (data) {
+      if (searchQuery) {
+        // Filtra em memória para evitar problemas de tipagem (string vs number) no JSONB do Supabase
+        produtos = data.filter((p: any) => 
+          p.tamanhos_estoque && 
+          Array.isArray(p.tamanhos_estoque) &&
+          p.tamanhos_estoque.some((t: any) => String(t.tamanho).trim() === searchQuery)
+        );
+      } else {
+        produtos = data;
+      }
+    }
   } catch (error) {
     console.error("Erro ao buscar produtos na loja:", error);
   }
