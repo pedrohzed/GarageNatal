@@ -39,7 +39,7 @@ export function Navbar() {
     e.preventDefault();
     const trimmed = searchQuery.trim();
     if (trimmed) {
-      router.push(`/loja?q=${encodeURIComponent(trimmed)}`);
+      router.push(`/loja?tamanho=${encodeURIComponent(trimmed)}`);
     } else {
       router.push("/loja");
     }
@@ -75,7 +75,7 @@ export function Navbar() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="block w-full pl-9 pr-3 py-2 border border-[#333] rounded-lg leading-5 bg-[#1a1a1a] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:bg-[#222] text-sm transition-all"
-                placeholder="Buscar tênis..."
+                placeholder="Pesquisar tamanho..."
               />
             </div>
           </form>
@@ -118,7 +118,7 @@ export function Navbar() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="block w-full pl-9 pr-3 py-2 border border-[#333] rounded-lg leading-5 bg-[#1a1a1a] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm transition-all"
-            placeholder="Buscar tênis..."
+            placeholder="Pesquisar tamanho..."
           />
         </form>
       </div>

@@ -9,11 +9,11 @@ export const metadata = {
   description: "Veja todos os tênis disponíveis na GarageNatal. Estoque limitado, preços imbatíveis.",
 };
 
-export default async function LojaPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+export default async function LojaPage({ searchParams }: { searchParams: Promise<{ tamanho?: string }> }) {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
-  const { q } = await searchParams;
-  const searchQuery = q?.trim() || "";
+  const { tamanho } = await searchParams;
+  const searchQuery = tamanho?.trim() || "";
 
   let produtos: any[] = [];
   try {
@@ -23,9 +23,9 @@ export default async function LojaPage({ searchParams }: { searchParams: Promise
       .eq("visivel", true)
       .order("created_at", { ascending: false });
 
-    // Se tem busca, filtra por nome (case-insensitive)
+    // Se tem busca, filtra por tamanho no array JSONB
     if (searchQuery) {
-      query = query.ilike("nome", `%${searchQuery}%`);
+      query = query.contains("tamanhos_estoque", [{ tamanho: searchQuery }]);
     }
 
     const { data } = await query;
@@ -47,7 +47,7 @@ export default async function LojaPage({ searchParams }: { searchParams: Promise
         </Link>
         <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">
           {searchQuery ? (
-            <>Resultados para <span className="text-primary">&ldquo;{searchQuery}&rdquo;</span></>
+            <>Tamanho <span className="text-primary">{searchQuery}</span></>
           ) : (
             <>Nosso <span className="text-primary">Catálogo</span></>
           )}
@@ -70,11 +70,11 @@ export default async function LojaPage({ searchParams }: { searchParams: Promise
             <>
               <SearchX className="w-16 h-16 text-gray-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-400 mb-2">
-                Nenhum resultado para &ldquo;{searchQuery}&rdquo;
+                Tamanho não encontrado
               </h3>
-              <p className="text-gray-500 mb-4">Tente buscar por outro nome ou categoria.</p>
+              <p className="text-gray-500 mb-4">Nenhum tênis disponível no tamanho {searchQuery}.</p>
               <Link href="/loja" className="text-primary hover:text-yellow-400 font-medium">
-                Ver todos os tênis
+                Ver todos os tamanhos
               </Link>
             </>
           ) : (
