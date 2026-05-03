@@ -9,6 +9,27 @@ export function CartDrawer() {
 
   if (!isCartOpen) return null;
 
+  const handleCheckout = () => {
+    // Número do WhatsApp da loja (substitua pelo seu com DDI e DDD, ex: 5584999999999)
+    const phoneNumber = "5584999999999"; 
+    
+    let message = "Olá *GarageNatal*! 👟\nGostaria de finalizar o meu pedido:\n\n";
+    
+    items.forEach((item, index) => {
+      message += `${index + 1}. *${item.nome}*\n`;
+      message += `   Tamanho: ${item.tamanho} | Qtd: ${item.quantidade}\n`;
+      message += `   Preço: R$ ${(item.preco * item.quantidade).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}\n\n`;
+    });
+    
+    message += `*Total do Pedido: R$ ${cartTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}*\n\n`;
+    message += "Aguardando confirmação de disponibilidade e instruções de pagamento (PIX).";
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -105,8 +126,11 @@ export function CartDrawer() {
                 R$ {cartTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </span>
             </div>
-            <button className="w-full bg-primary text-black font-black uppercase tracking-wider py-4 rounded hover:bg-yellow-400 transition-colors">
-              Finalizar Compra
+            <button 
+              onClick={handleCheckout}
+              className="w-full bg-primary text-black font-black uppercase tracking-wider py-4 rounded hover:bg-yellow-400 transition-colors cursor-pointer"
+            >
+              Finalizar Compra via WhatsApp
             </button>
           </div>
         )}
