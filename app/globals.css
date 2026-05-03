@@ -21,43 +21,76 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* MODO CLARO (LIGHT MODE) COM CSS OVERRIDES PARA COMPATIBILIDADE DE PROTÓTIPO */
+/* MODO CLARO (LIGHT MODE) COM CSS OVERRIDES APRIMORADOS */
 html.light {
-  --background: #D4D4D4; /* Cor solicitada: #D4D4D4 */
+  /* Cinza mais escuro para o background principal */
+  --background: #B0B0B0; 
   --foreground: #111111;
 }
 
 html.light body {
-  background-color: #D4D4D4 !important;
-  color: #111111 !important;
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
 }
 
-/* Força os painéis escuros a ficarem claros */
+/* Backgrounds principais e Navbar */
 html.light [class*="bg-[#0f0f0f]"], 
-html.light [class*="bg-[#121212]"], 
-html.light [class*="bg-[#151515]"] {
-  background-color: #D4D4D4 !important;
+html.light [class*="bg-[#0a0a0a]"] {
+  background-color: #B0B0B0 !important;
 }
 
+/* Painéis, Cartões e Formulários */
+html.light [class*="bg-[#121212]"], 
 html.light [class*="bg-[#1a1a1a]"], 
-html.light [class*="bg-[#222]"] {
-  background-color: #ffffff !important;
+html.light [class*="bg-[#151515]"] {
+  background-color: #C8C8C8 !important;
   color: #111111 !important;
 }
 
-/* Inverte as cores dos textos brancos e cinzas */
+/* Elementos secundários, inputs e tabelas */
+html.light [class*="bg-[#222]"],
+html.light [class*="bg-[#333]"] {
+  background-color: #D4D4D4 !important;
+  color: #111111 !important;
+}
+
+/* Modificadores de Hover em botões e elementos */
+html.light [class*="hover:bg-[#222]"]:hover,
+html.light [class*="hover:bg-[#333]"]:hover,
+html.light [class*="hover:bg-[#444]"]:hover {
+  background-color: #A0A0A0 !important;
+}
+
+/* Textos e Tipografia */
 html.light [class*="text-white"] {
   color: #111111 !important;
 }
 
+html.light [class*="text-gray-300"],
 html.light [class*="text-gray-400"], 
 html.light [class*="text-gray-500"] {
-  color: #555555 !important;
+  color: #333333 !important;
 }
 
-/* Clareia as bordas escuras */
+/* Hover de textos */
+html.light [class*="hover:text-white"]:hover {
+  color: #000000 !important;
+}
+
+/* Bordas */
 html.light [class*="border-[#2a2a2a]"], 
 html.light [class*="border-[#333]"], 
 html.light [class*="border-[#444]"] {
-  border-color: #bbbbbb !important;
+  border-color: #888888 !important;
+}
+
+/* Bordas em hover */
+html.light [class*="hover:border-[#333]"]:hover,
+html.light [class*="hover:border-[#444]"]:hover {
+  border-color: #666666 !important;
+}
+
+/* Placeholder texts nos inputs */
+html.light ::placeholder {
+  color: #555555 !important;
 }
